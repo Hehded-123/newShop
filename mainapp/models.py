@@ -23,6 +23,7 @@ class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
     order_date = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False, null=True, blank=True)
+    transaction_id = models.CharField(max_length=200, null=True)
 
     def __str__(self):
         return str(self.id)
@@ -59,8 +60,18 @@ class Product(models.Model):
     price = models.PositiveIntegerField()
     photo = models.ImageField(upload_to='static/images/data_base/photos/')
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+
     def __str__(self):
         return self.title
+
+    def imageURL(self):
+        try:
+            url = self.photo.url
+        except:
+            url = ''
+        return url
 
 
 class OrderItem(models.Model):
